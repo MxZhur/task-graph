@@ -1,0 +1,11 @@
+{
+    "exitConfirmation": {
+        "titleYouSure": "Выход",
+        "youSure": "Вы уверены?",
+        "titleSaveChanges": "Сохранить изменения?",
+        "saveChanges": "Ваш проект содержит несохранённые изменения. Сохранить их?"
+    },
+    "unableToOpenFile": "Не удалось открыть файл",
+    "error": "Ошибка",
+    "newProject": "Новый проект"
+}

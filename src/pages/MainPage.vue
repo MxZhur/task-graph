@@ -5,14 +5,9 @@ import Modal from '../components/Modal.vue';
 import NewTaskForm from '../components/NewTaskForm.vue';
 import TaskDetailsView from '../components/TaskDetailsView.vue';
 import StatusBar from '../components/StatusBar.vue';
-
-const parentTaskId = ref<string | null>(null);
+import MenuBar from '../components/MenuBar.vue';
 
 const newTaskFormRef = ref<InstanceType<typeof NewTaskForm>>();
-
-function switchParentTask(newParentTaskId: string | null) {
-    parentTaskId.value = newParentTaskId;
-}
 
 const showNewTaskForm = ref<boolean>(false);
 
@@ -37,10 +32,10 @@ function closeNewTaskForm() {
 
 <template>
     <div class="h-full">
+        <MenuBar />
         <div class="flex flex-row task-graph-container">
             <div class="w-2/3">
-                <Graph :parentTaskId="parentTaskId" @new-task-request="openNewTaskForm"
-                    @switch-parent-task="switchParentTask" />
+                <Graph @new-task-request="openNewTaskForm" />
             </div>
             <div class="w-1/3">
                 <TaskDetailsView />
@@ -49,13 +44,12 @@ function closeNewTaskForm() {
         <StatusBar />
     </div>
     <Modal :show="showNewTaskForm" @close="closeNewTaskForm">
-        <NewTaskForm ref="newTaskFormRef" :parent-id="parentTaskId" :new-task-point="newTaskPoint"
-            @form-submit="closeNewTaskForm" />
+        <NewTaskForm ref="newTaskFormRef" :new-task-point="newTaskPoint" @form-submit="closeNewTaskForm" />
     </Modal>
 </template>
 
 <style scoped>
 .task-graph-container {
-    height: calc(100% - 2rem);
+    height: calc(100% - 4rem);
 }
 </style>

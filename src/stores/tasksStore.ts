@@ -1,6 +1,7 @@
 import { computed, reactive, ref } from "vue";
 import { defineStore } from "pinia";
 import { nanoid } from "nanoid";
+import { useCurrentFileStore } from "./currentFileStore";
 
 export type Task = {
   id: string;
@@ -135,13 +136,13 @@ export const useTasksStore = defineStore("tasks", () => {
   const selectedLinks = computed(() => {
     return selectedLinksIds.value
       .map((lId) => {
-        const nodesIds = lId.split(' ', 2);
+        const nodesIds = lId.split(" ", 2);
 
         const sourceTaskId = nodesIds[0];
         const targetTaskId = nodesIds[nodesIds.length - 1];
 
-        const sourceTask = tasks.find(t => t.id === sourceTaskId);
-        const targetTask = tasks.find(t => t.id === targetTaskId);
+        const sourceTask = tasks.find((t) => t.id === sourceTaskId);
+        const targetTask = tasks.find((t) => t.id === targetTaskId);
 
         if (sourceTask === undefined || targetTask === undefined) {
           return null;
@@ -150,7 +151,7 @@ export const useTasksStore = defineStore("tasks", () => {
         return {
           source: sourceTask,
           target: targetTask,
-        }
+        };
       })
       .filter((t) => t !== null);
   });
@@ -173,6 +174,12 @@ export const useTasksStore = defineStore("tasks", () => {
     return tasks.find((t) => t.id === id);
   }
 
+  const selectedParentTaskId = ref<string | null>(null);
+
+  function switchParentTask(newParentTaskId: string | null) {
+    selectedParentTaskId.value = newParentTaskId;
+  }
+
   function createTask(formFields: NewTaskFormFields) {
     const newTask: Task = {
       id: nanoid(),
@@ -190,6 +197,9 @@ export const useTasksStore = defineStore("tasks", () => {
     tasks.push(newTask);
 
     recalculateProgress();
+
+    const currentFileStore = useCurrentFileStore();
+    currentFileStore.setToDirtyFile();
   }
 
   function deleteTask(id: string) {
@@ -251,6 +261,9 @@ export const useTasksStore = defineStore("tasks", () => {
     }
 
     recalculateProgress();
+
+    const currentFileStore = useCurrentFileStore();
+    currentFileStore.setToDirtyFile();
   }
 
   function addDependency(depId: string, id: string) {
@@ -263,6 +276,9 @@ export const useTasksStore = defineStore("tasks", () => {
     if (!task.dependencyTasks.includes(depId)) {
       task.dependencyTasks.push(depId);
     }
+
+    const currentFileStore = useCurrentFileStore();
+    currentFileStore.setToDirtyFile();
   }
 
   function removeDependency(depId: string, id: string) {
@@ -273,12 +289,15 @@ export const useTasksStore = defineStore("tasks", () => {
     }
 
     task.dependencyTasks = task.dependencyTasks.filter((tId) => tId !== depId);
+
+    const currentFileStore = useCurrentFileStore();
+    currentFileStore.setToDirtyFile();
   }
 
   function updateTaskSelection(ids: string[]) {
     selectedTasksIds.value = ids;
   }
-  
+
   function updateLinkSelection(ids: string[]) {
     selectedLinksIds.value = ids;
   }
@@ -290,6 +309,9 @@ export const useTasksStore = defineStore("tasks", () => {
       return;
     }
     task.name = newName;
+
+    const currentFileStore = useCurrentFileStore();
+    currentFileStore.setToDirtyFile();
   }
 
   function updateDescription(id: string, newDescription: string) {
@@ -300,6 +322,9 @@ export const useTasksStore = defineStore("tasks", () => {
     }
 
     task.description = newDescription;
+
+    const currentFileStore = useCurrentFileStore();
+    currentFileStore.setToDirtyFile();
   }
 
   function updateProgress(id: string, newProgress: number) {
@@ -316,6 +341,9 @@ export const useTasksStore = defineStore("tasks", () => {
     }
 
     recalculateProgress();
+
+    const currentFileStore = useCurrentFileStore();
+    currentFileStore.setToDirtyFile();
   }
 
   function markTasksAsDone(ids: string[]) {
@@ -336,6 +364,9 @@ export const useTasksStore = defineStore("tasks", () => {
     }
 
     recalculateProgress();
+
+    const currentFileStore = useCurrentFileStore();
+    currentFileStore.setToDirtyFile();
   }
 
   function updatePriority(id: string, newPriority: number) {
@@ -346,6 +377,9 @@ export const useTasksStore = defineStore("tasks", () => {
     }
 
     task.priority = newPriority;
+
+    const currentFileStore = useCurrentFileStore();
+    currentFileStore.setToDirtyFile();
   }
 
   function updateDufficulty(id: string, newDufficulty: number) {
@@ -356,6 +390,11 @@ export const useTasksStore = defineStore("tasks", () => {
     }
 
     task.difficulty = newDufficulty;
+
+    recalculateProgress();
+
+    const currentFileStore = useCurrentFileStore();
+    currentFileStore.setToDirtyFile();
   }
 
   function updateNodePosition(id: string, x: number, y: number) {
@@ -367,6 +406,9 @@ export const useTasksStore = defineStore("tasks", () => {
 
     task.nodeX = x;
     task.nodeY = y;
+
+    const currentFileStore = useCurrentFileStore();
+    currentFileStore.setToDirtyFile();
   }
 
   function recalculateProgress() {
@@ -417,6 +459,44 @@ export const useTasksStore = defineStore("tasks", () => {
     }
   }
 
+  function getDependencyProgress(id: string) {
+    let task = tasks.find((t) => t.id === id);
+
+    if (task === undefined) {
+      return 100;
+    }
+
+    const depTasks = tasks.filter((t) => task.dependencyTasks.includes(t.id));
+
+    if (depTasks.length === 0) {
+      return 100;
+    }
+
+    return calcAvgProgress(depTasks);
+  }
+
+  function loadTasks(source: string) {
+    const sourceParsed = JSON.parse(source);
+
+    if (!Array.isArray(sourceParsed)) {
+      return;
+    }
+
+    clearTasks();
+
+    for (let i = 0; i < sourceParsed.length; i++) {
+      tasks.push(sourceParsed[i]);
+    }
+
+    switchParentTask(null);
+    updateTaskSelection([]);
+    updateLinkSelection([]);
+  }
+
+  function clearTasks() {
+    tasks.splice(0, tasks.length);
+  }
+
   return {
     tasks,
     topLevelTasks,
@@ -437,9 +517,14 @@ export const useTasksStore = defineStore("tasks", () => {
     recalculateProgress,
     addDependency,
     removeDependency,
+    getDependencyProgress,
     selectedTasksIds,
     selectedTasks,
     selectedLinksIds,
     selectedLinks,
+    selectedParentTaskId,
+    switchParentTask,
+    loadTasks,
+    clearTasks,
   };
 });

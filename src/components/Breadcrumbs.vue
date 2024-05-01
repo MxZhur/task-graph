@@ -9,14 +9,8 @@ const emit = defineEmits<{
     (e: 'switchParentTask', parentId: string | null): void
 }>();
 
-const props = withDefaults(defineProps<{
-    parentTaskId: string | null,
-}>(), {
-    parentTaskId: null,
-});
-
 const links = computed(() => {
-    if (props.parentTaskId === null) {
+    if (tasksStore.selectedParentTaskId === null) {
         return [];
     }
 
@@ -25,7 +19,7 @@ const links = computed(() => {
         name: string;
     }[] = [];
 
-    let parentTaskIdPointer: string | null = props.parentTaskId;
+    let parentTaskIdPointer: string | null = tasksStore.selectedParentTaskId;
 
     while (parentTaskIdPointer !== null) {
         let task = tasksStore.findTaskById(parentTaskIdPointer);
@@ -46,14 +40,17 @@ const links = computed(() => {
 });
 
 function switchParentTask(newParentId: string | null) {
-    emit('switchParentTask', newParentId);
+    tasksStore.switchParentTask(newParentId);
 }
 
 </script>
 
 <template>
     <div class="p-2 bg-white min-h-8 flex flex-row justify-start overflow-x-hidden">
-        <HomeIcon class="cursor-pointer" @click="switchParentTask(null)" title="Top Level" />
+        <div class="cursor-pointer" @click="switchParentTask(null)" title="Top Level">
+            <HomeIcon />
+        </div>
+
         <template v-for="link in links" :key="link.id">
             <span class="text-gray-400 unselectable">
                 &nbsp;/&nbsp;

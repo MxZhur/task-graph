@@ -9,7 +9,6 @@ const tasksStore = useTasksStore();
 const emit = defineEmits(['formSubmit']);
 
 const props = defineProps<{
-    parentId: string | null,
     newTaskPoint: {
         x: number;
         y: number;
@@ -29,7 +28,7 @@ function onSubmit() {
         description: formFields.description,
         priority: formFields.priority,
         difficulty: formFields.difficulty,
-        parentTaskId: props.parentId,
+        parentTaskId: tasksStore.selectedParentTaskId,
         nodeX: props.newTaskPoint.x,
         nodeY: props.newTaskPoint.y,
     });

@@ -17,24 +17,17 @@ import FitContentsIcon from "./icons/FitContentsIcon.vue";
 
 const graph = ref<Instance>();
 
-const props = withDefaults(defineProps<{
-  parentTaskId: string | null;
-}>(), {
-  parentTaskId: null,
-});
-
 const emit = defineEmits<{
   (e: 'newTaskRequest', nodeX: number, nodeY: number): void
-  (e: 'switchParentTask', parentId: string | null): void
 }>();
 
 const tasksStore = useTasksStore();
 
 function getScopedTasks() {
-  if (props.parentTaskId === null) {
+  if (tasksStore.selectedParentTaskId === null) {
     return tasksStore.topLevelTasks;
   } else {
-    return tasksStore.findTasksByParent(props.parentTaskId);
+    return tasksStore.findTasksByParent(tasksStore.selectedParentTaskId);
   }
 };
 
@@ -76,6 +69,14 @@ const nodes = computed(() => {
     }
 
     let strokeDasharray: number = 0;
+
+    const hasUnfinishedDependencies = tasksStore.getDependencyProgress(element.id) < 100;
+
+    if (hasUnfinishedDependencies) {
+      strokeDasharray = 5;
+    } else {
+      strokeDasharray = 0;
+    }
 
     let strokeColor: string;
 
@@ -193,8 +194,8 @@ const configs = reactive(
         type: node => node.type,
         color: node => node.color ?? 'white',
         radius: node => node.radius ?? 16,
-        height: node => (node.radius ?? 16) * 1.5,
-        width: node => (node.radius ?? 16) * 1.5,
+        height: node => (node.radius ?? 16) * 1.8,
+        width: node => (node.radius ?? 16) * 1.8,
         strokeColor: node => node.strokeColor ?? '#4466cc',
         strokeWidth: node => node.strokeWidth ?? 3,
         strokeDasharray: node => node.strokeDasharray ?? 0,
@@ -235,7 +236,7 @@ const eventHandlers: EventHandlers = {
 
   },
   "node:dblclick": (e) => {
-    emit("switchParentTask", e.node);
+    tasksStore.switchParentTask(e.node);
   },
   "node:select": (e) => {
     tasksStore.updateTaskSelection(e);
@@ -245,10 +246,6 @@ const eventHandlers: EventHandlers = {
   },
 }
 
-function switchParentTask(newParentId: string | null) {
-  emit('switchParentTask', newParentId);
-}
-
 function fitContents() {
   graph.value?.fitToContents();
 }
@@ -256,7 +253,7 @@ function fitContents() {
 </script>
 
 <template>
-  <Breadcrumbs :parentTaskId="parentTaskId" @switch-parent-task="switchParentTask" />
+  <Breadcrumbs />
   <div class="graph-container relative">
     <VNetworkGraph class="graph" ref="graph" :nodes="nodes" :edges="edges" :layouts="layouts" :configs="configs"
       :event-handlers="eventHandlers" />

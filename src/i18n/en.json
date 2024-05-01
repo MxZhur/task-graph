@@ -1,0 +1,11 @@
+{
+    "exitConfirmation": {
+        "titleYouSure": "Exit",
+        "youSure": "Are you sure?",
+        "titleSaveChanges": "Save changes?",
+        "saveChanges": "Your project has unsaved changes. Do you want to save them?"
+    },
+    "unableToOpenFile": "Unable to open file",
+    "error": "Error",
+    "newProject": "New Project"
+}

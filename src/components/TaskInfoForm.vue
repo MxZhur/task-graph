@@ -5,6 +5,7 @@ import PrioritySelector from './PrioritySelector.vue';
 import DifficultySelector from './DifficultySelector.vue';
 import CheckIcon from './icons/CheckIcon.vue';
 import TrashIcon from './icons/TrashIcon.vue';
+import DiveInIcon from './icons/DiveInIcon.vue';
 
 const tasksStore = useTasksStore();
 
@@ -62,6 +63,10 @@ function changeDufficulty(newValue: number) {
     tasksStore.updateDufficulty(props.task.id, newValue);
 }
 
+function diveIn() {
+    tasksStore.switchParentTask(props.task.id);
+}
+
 function deleteTask() {
     tasksStore.deleteTask(props.task.id);
     tasksStore.updateTaskSelection([]);
@@ -70,7 +75,7 @@ function deleteTask() {
 </script>
 
 <template>
-    <div>
+    <div class="h-full overflow-y-scroll">
         <div class="text-2xl mb-4">Task Details</div>
 
         <div class="mb-4">
@@ -124,6 +129,14 @@ function deleteTask() {
                 Difficulty
             </div>
             <DifficultySelector v-model="formFields.difficulty" @change="changeDufficulty" />
+        </div>
+
+        <div class="mt-4">
+            <button type="button"
+                class="w-full flex flex-row rounded-md justify-center items-center text-white bg-sky-700 hover:bg-sky-900 px-2 py-1"
+                @click="diveIn">
+                <DiveInIcon /> Dive In
+            </button>
         </div>
 
         <div class="mt-8">
