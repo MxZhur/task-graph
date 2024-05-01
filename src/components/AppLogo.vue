@@ -1,7 +1,7 @@
 <template>
     <div class="app-logo-container">
         <div class="app-logo-image">
-            <!-- <img src="../assets/icon.svg" height="200" /> -->
+            <img src="../assets/icon.svg" height="200" />
         </div>
         <div class="app-logo-text">
             <div>Task</div>
