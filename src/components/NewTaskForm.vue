@@ -61,7 +61,7 @@ defineExpose({
                 Name
             </div>
             <input type="text" class="w-full rounded-md border px-2 py-1 border-gray-500 text-base"
-                v-model.trim="formFields.name" required placeholder="Name" />
+                v-model.trim="formFields.name" required placeholder="Name" autocomplete="off" />
         </div>
 
         <div class="mb-4">
@@ -79,7 +79,7 @@ defineExpose({
                 </div>
                 <PrioritySelector v-model="formFields.priority" />
             </div>
-    
+
             <div class="mb-4">
                 <div>
                     Difficulty

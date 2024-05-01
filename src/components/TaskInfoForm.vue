@@ -78,7 +78,7 @@ function deleteTask() {
                 Name
             </div>
             <input type="text" class="w-full rounded-md border px-2 py-1 border-gray-500 text-base"
-                v-model.trim="formFields.name" @input="changeName" required placeholder="Name" />
+                v-model.trim="formFields.name" autocomplete="off" @input="changeName" required placeholder="Name" />
         </div>
 
         <div class="mb-4">
