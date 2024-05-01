@@ -20,8 +20,17 @@ const tasksStore = useTasksStore();
             <MultiLinkInfoForm :links="tasksStore.selectedLinks" />
         </template>
         <template v-else>
-            <div class="h-full border border-dashed border-gray-500 rounded-3xl flex flex-col justify-center items-center">
-                Select a task on the graph.
+            <div
+                class="h-full border border-dashed border-gray-500 rounded-3xl flex flex-col justify-center items-center p-4 text-center text-gray-700">
+                <div>
+                    Select a task or a link on the graph
+                </div>
+                <div>
+                    Hold Shift to multi-select.
+                </div>
+                <div class="mt-4">
+                    Double click the grid to place a new task on it.
+                </div>
             </div>
         </template>
     </div>
