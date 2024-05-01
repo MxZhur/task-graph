@@ -23,14 +23,6 @@ const formFields = reactive({
     difficulty: TASK_DIFFICULTIES.normal,
 });
 
-function onPriorityChange(newValue: number) {
-    formFields.priority = newValue;
-}
-
-function onDufficultyChange(newValue: number) {
-    formFields.difficulty = newValue;
-}
-
 function onSubmit() {
     tasksStore.createTask(<NewTaskFormFields>{
         name: formFields.name,
@@ -85,14 +77,14 @@ defineExpose({
                 <div>
                     Priority
                 </div>
-                <PrioritySelector :value="formFields.priority" @change="onPriorityChange" />
+                <PrioritySelector v-model="formFields.priority" />
             </div>
     
             <div class="mb-4">
                 <div>
                     Difficulty
                 </div>
-                <DifficultySelector :value="formFields.difficulty" @change="onDufficultyChange" />
+                <DifficultySelector v-model="formFields.difficulty" />
             </div>
         </div>
 

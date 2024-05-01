@@ -11,7 +11,7 @@ import {
   defineConfigs
 } from "v-network-graph"
 import "v-network-graph/lib/style.css"
-import { useTasksStore } from "../stores/tasksStore";
+import { TASK_DIFFICULTIES, TASK_PRIORITIES, useTasksStore } from "../stores/tasksStore";
 import Breadcrumbs from "./Breadcrumbs.vue";
 import FitContentsIcon from "./icons/FitContentsIcon.vue";
 
@@ -47,8 +47,75 @@ const nodes = computed(() => {
   for (let i = 0; i < scopedTasks.length; i++) {
     const element = scopedTasks[i];
 
+    let color: string;
+
+    if (element.progress == 0) {
+      color = 'white';
+    } else if (element.progress == 100) {
+      color = '#a4ff91';
+    } else {
+      color = '#fff9ab';
+    }
+
+    let radius: number;
+
+    switch (element.difficulty) {
+      case TASK_DIFFICULTIES.easy:
+        radius = 12;
+        break;
+      case TASK_DIFFICULTIES.normal:
+        radius = 18;
+        break;
+      case TASK_DIFFICULTIES.hard:
+        radius = 28;
+        break;
+
+      default:
+        radius = 16;
+        break;
+    }
+
+    let strokeDasharray: number = 0;
+
+    let strokeColor: string;
+
+    switch (element.priority) {
+      case TASK_PRIORITIES.none:
+        strokeColor = '#b8b8b8';
+        break;
+      case TASK_PRIORITIES.low:
+        strokeColor = '#22aee0';
+        break;
+      case TASK_PRIORITIES.medium:
+        strokeColor = '#4ad911';
+        break;
+      case TASK_PRIORITIES.high:
+        strokeColor = '#f7cd43';
+        break;
+      case TASK_PRIORITIES.critical:
+        strokeColor = '#ed1a02';
+        break;
+
+      default:
+        strokeColor = '#4466cc';
+        break;
+    }
+
+    let type: string = 'circle';
+
+    const hasChildTasks = tasksStore.findTasksByParent(element.id).length > 0;
+
+    if (hasChildTasks) {
+      type = 'rect';
+    }
+
     result[element.id] = {
+      type: type,
       name: element.name,
+      color: color,
+      radius: radius,
+      strokeColor: strokeColor,
+      strokeDasharray: strokeDasharray,
     }
   }
 
@@ -67,7 +134,7 @@ const edges = computed(() => {
     for (let j = 0; j < element.dependencyTasks.length; j++) {
       const depTaskId = element.dependencyTasks[j];
 
-      result[depTaskId + element.id] = { source: depTaskId, target: element.id }
+      result[`${depTaskId} ${element.id}`] = { source: depTaskId, target: element.id }
     }
   }
 
@@ -118,18 +185,24 @@ const configs = reactive(
         target: {
           type: "arrow",
         }
-      }
+      },
+      selectable: true,
     },
     node: {
       normal: {
-        color: 'white',
-        strokeColor: '#4466cc',
-        strokeWidth: 1,
+        type: node => node.type,
+        color: node => node.color ?? 'white',
+        radius: node => node.radius ?? 16,
+        height: node => (node.radius ?? 16) * 1.5,
+        width: node => (node.radius ?? 16) * 1.5,
+        strokeColor: node => node.strokeColor ?? '#4466cc',
+        strokeWidth: node => node.strokeWidth ?? 3,
+        strokeDasharray: node => node.strokeDasharray ?? 0,
       },
       hover: {
-        color: '#aeaeee',
-        strokeColor: '#4466cc',
-        strokeWidth: 1,
+        color: node => node.color ?? '#aeaeee',
+        strokeColor: node => node.strokeColor ?? '#4466cc',
+        strokeWidth: node => node.strokeWidth ?? 3,
       },
       label: {
         fontFamily: 'sans-serif',
@@ -165,8 +238,11 @@ const eventHandlers: EventHandlers = {
     emit("switchParentTask", e.node);
   },
   "node:select": (e) => {
-    tasksStore.updateSelection(e);
-  }
+    tasksStore.updateTaskSelection(e);
+  },
+  "edge:select": (e) => {
+    tasksStore.updateLinkSelection(e);
+  },
 }
 
 function switchParentTask(newParentId: string | null) {
