@@ -2,6 +2,9 @@
 import { useRouter } from 'vue-router';
 import { APP_AUTHOR, APP_RELEASE_YEAR, APP_VERSION } from '../utils/appInfo';
 import AppLogo from '../components/AppLogo.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const router = useRouter()
 
@@ -18,7 +21,7 @@ const goBack = () => {
         </div>
 
         <div class="mb-4">
-            Version {{ APP_VERSION }}
+            {{ t('aboutPage.version') }} {{ APP_VERSION }}
         </div>
 
         <div>
@@ -26,7 +29,7 @@ const goBack = () => {
         </div>
 
         <div>
-            Made with
+            {{ t('aboutPage.madeWith') }}
             <a href="https://vuejs.org/" target="_blank">
                 Vue
             </a>
@@ -38,14 +41,14 @@ const goBack = () => {
 
         <div>
             <a href="https://github.com/MxZhur/task-graph" target="_blank">
-                GitHub Page
+                {{ t('aboutPage.githubPage') }}
             </a>
         </div>
 
         <div class="mt-4">
             <button @click="goBack"
                 class="flex flex-row rounded-md justify-center items-center text-white bg-sky-500 hover:bg-sky-700 px-2 py-1">
-                Back
+                {{ t('back') }}
             </button>
         </div>
     </div>

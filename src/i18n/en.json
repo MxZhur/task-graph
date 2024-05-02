@@ -1,11 +1,73 @@
 {
+    "menu": {
+        "file": "File",
+        "fileNew": "New",
+        "fileOpen": "Open",
+        "fileSave": "Save",
+        "fileSaveAs": "Save As",
+        "clearRecent": "Clear Recent Files",
+        "about": "About"
+    },
+    "titles": {
+        "createTask": "Create Task",
+        "taskDetails": "Task Details",
+        "multipleTasks": "Multiple Tasks",
+        "linkDetails": "Link Details",
+        "multipleLinks": "Multiple Links"
+    },
+    "formFields": {
+        "name": "Name",
+        "description": "Description",
+        "progress": "Progress",
+        "priority": "Priority",
+        "difficulty": "Difficulty"
+    },
     "exitConfirmation": {
         "titleYouSure": "Exit",
         "youSure": "Are you sure?",
         "titleSaveChanges": "Save changes?",
         "saveChanges": "Your project has unsaved changes. Do you want to save them?"
     },
+    "buttons": {
+        "diveIn": "Dive In",
+        "linkTasks": "Link Tasks",
+        "linkTasksInChain": "Link Tasks In Chain",
+        "markAsDone": "Mark As Done",
+        "markAllAsDone": "Mark All As Done",
+        "unlink": "Unlink",
+        "unlinkAll": "Unlink All",
+        "deleteAll": "Delete All"
+    },
+    "priorities": {
+        "critical": "Critical",
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low",
+        "none": "None"
+    },
+    "difficulties": {
+        "easy": "Easy",
+        "normal": "Normal",
+        "hard": "Hard"
+    },
+    "goToTopLevel": "Go back to top level",
     "unableToOpenFile": "Unable to open file",
     "error": "Error",
-    "newProject": "New Project"
+    "fitContents": "Fit Contents",
+    "create": "Create",
+    "delete": "Delete",
+    "back": "Back",
+    "newProject": "New Project",
+    "selectTaskHint": {
+        "selectTask": "Select a task or a link on the graph.",
+        "holdShift": "Hold Shift to multi-select.",
+        "doubleClick": "Double click the grid to place a new task on it."
+    },
+    "projectProgress": "Project Progress",
+    "unsavedChanges": "Unsaved changes",
+    "aboutPage": {
+        "version": "Version",
+        "madeWith": "Made with",
+        "githubPage": "GitHub Page"
+    }
 }

@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { useTasksStore } from '../stores/tasksStore';
 import MultiLinkInfoForm from './MultiLinkInfoForm.vue';
 import MultiTaskInfoForm from './MultiTaskInfoForm.vue';
 import TaskInfoForm from './TaskInfoForm.vue';
 
 const tasksStore = useTasksStore();
+
+const { t } = useI18n();
 
 </script>
 
@@ -21,15 +24,15 @@ const tasksStore = useTasksStore();
         </template>
         <template v-else>
             <div
-                class="h-full border border-dashed border-gray-500 rounded-3xl flex flex-col justify-center items-center p-4 text-center text-gray-700">
+                class="h-full border border-dashed border-gray-500 rounded-3xl flex flex-col justify-center items-center p-4 text-center text-sm text-gray-700">
                 <div>
-                    Select a task or a link on the graph
+                    {{ t('selectTaskHint.selectTask') }}
                 </div>
                 <div>
-                    Hold Shift to multi-select.
+                    {{ t('selectTaskHint.holdShift') }}
                 </div>
                 <div class="mt-4">
-                    Double click the grid to place a new task on it.
+                    {{ t('selectTaskHint.doubleClick') }}
                 </div>
             </div>
         </template>

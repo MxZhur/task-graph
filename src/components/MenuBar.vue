@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { useCurrentFileStore } from '../stores/currentFileStore';
 import { useRecentFilesStore } from '../stores/recentFilesStore';
 import {
@@ -10,6 +11,8 @@ import {
     getFileBaseName
 } from '../utils/file';
 import DropdownMenu from './DropdownMenu.vue';
+
+const { t } = useI18n();
 
 const currentFileStore = useCurrentFileStore();
 const recentFilesStore = useRecentFilesStore();
@@ -46,23 +49,23 @@ function clearRecentFiles() {
             <DropdownMenu>
                 <template #item>
                     <div>
-                        File
+                        {{ t('menu.file') }}
                     </div>
                 </template>
                 <template #menu>
                     <ul>
                         <li class="cursor-pointer my-2" @click="newFile">
-                            New
+                            {{ t('menu.fileNew') }}
                         </li>
                         <li class="cursor-pointer my-2" @click="openFile">
-                            Open...
+                            {{ t('menu.fileOpen') }}...
                         </li>
                         <li class="cursor-pointer my-2" :class="{ 'text-red-700': currentFileStore.isDirty }"
                             @click="saveFile">
-                            Save
+                            {{ t('menu.fileSave') }}
                         </li>
                         <li class="cursor-pointer my-2" @click="saveFileAs">
-                            Save As...
+                            {{ t('menu.fileSaveAs') }}...
                         </li>
 
                         <template v-if="recentFilesStore.files.length > 0">
@@ -72,7 +75,7 @@ function clearRecentFiles() {
                                 {{ getFileBaseName(file) }}
                             </li>
                             <li class="cursor-pointer my-2" @click="clearRecentFiles">
-                                Clear Recent Files
+                                {{ t('menu.clearRecent') }}
                             </li>
                         </template>
                     </ul>
@@ -80,7 +83,7 @@ function clearRecentFiles() {
             </DropdownMenu>
 
             <router-link to="/about">
-                About
+                {{ t('menu.about') }}
             </router-link>
         </div>
     </div>

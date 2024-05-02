@@ -1,11 +1,73 @@
 {
+    "menu": {
+        "file": "Файл",
+        "fileNew": "Новый",
+        "fileOpen": "Открыть",
+        "fileSave": "Сохранить",
+        "fileSaveAs": "Сохранить как",
+        "clearRecent": "Очистить список недавних",
+        "about": "О приложении"
+    },
+    "titles": {
+        "createTask": "Создать задачу",
+        "taskDetails": "Детали задачи",
+        "multipleTasks": "Несколько задач",
+        "linkDetails": "Детали связи",
+        "multipleLinks": "Несколько связей"
+    },
+    "formFields": {
+        "name": "Название",
+        "description": "Описание",
+        "progress": "Прогресс",
+        "priority": "Приоритет",
+        "difficulty": "Сложность"
+    },
     "exitConfirmation": {
         "titleYouSure": "Выход",
         "youSure": "Вы уверены?",
         "titleSaveChanges": "Сохранить изменения?",
         "saveChanges": "Ваш проект содержит несохранённые изменения. Сохранить их?"
     },
+    "buttons": {
+        "diveIn": "К подзадачам",
+        "linkTasks": "Связать задачи",
+        "linkTasksInChain": "Связать по цепочке",
+        "markAsDone": "Пометить как выполненную",
+        "markAllAsDone": "Выполнить все",
+        "unlink": "Разорвать связь",
+        "unlinkAll": "Разорвать все связи",
+        "deleteAll": "Удалить все"
+    },
+    "priorities": {
+        "critical": "Критический",
+        "high": "Высокий",
+        "medium": "Средний",
+        "low": "Низкий",
+        "none": "Очень низкий"
+    },
+    "difficulties": {
+        "easy": "Лёгкая",
+        "normal": "Средняя",
+        "hard": "Тяжёлая"
+    },
+    "goToTopLevel": "Вернуться на верхний уровень",
     "unableToOpenFile": "Не удалось открыть файл",
     "error": "Ошибка",
-    "newProject": "Новый проект"
+    "fitContents": "Масштаб по содержимому",
+    "create": "Создать",
+    "delete": "Удалить",
+    "back": "Назад",
+    "newProject": "Новый проект",
+    "selectTaskHint": {
+        "selectTask": "Выберите задачу или связь на графе.",
+        "holdShift": "Зажмите Shift, чтобы выбрать несколько.",
+        "doubleClick": "Дважды кликните по пустому месту на графе, чтобы создать задачу."
+    },
+    "projectProgress": "Прогресс проекта",
+    "unsavedChanges": "Несохранённые изменения",
+    "aboutPage": {
+        "version": "Версия",
+        "madeWith": "Сделано с помощью",
+        "githubPage": "Страница на GitHub"
+    }
 }

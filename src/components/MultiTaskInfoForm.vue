@@ -3,6 +3,9 @@ import { computed } from 'vue';
 import { Task, useTasksStore } from '../stores/tasksStore';
 import CheckIcon from './icons/CheckIcon.vue';
 import TrashIcon from './icons/TrashIcon.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const tasksStore = useTasksStore();
 
@@ -60,7 +63,9 @@ function deleteTasks() {
 
 <template>
     <div>
-        <div class="text-2xl mb-4">Multiple Tasks</div>
+        <div class="text-xl mb-4">
+            {{ t('titles.multipleTasks') }}
+        </div>
 
         <div class="mb-4">
             <ul>
@@ -74,7 +79,7 @@ function deleteTasks() {
             <button type="button"
                 class="w-full flex flex-row rounded-md justify-center items-center text-white bg-sky-700 hover:bg-sky-900 px-2 py-1"
                 @click="linkInChain">
-                {{ tasks.length === 2 ? "Link Tasks" : "Link Tasks in Chain" }}
+                {{ t(tasks.length === 2 ? "buttons.linkTasks" : "buttons.linkTasksInChain") }}
             </button>
         </div>
 
@@ -82,7 +87,7 @@ function deleteTasks() {
             <button type="button"
                 class="w-full flex flex-row rounded-md justify-center items-center text-white bg-green-700 hover:bg-green-900 px-2 py-1"
                 @click="markAsDone">
-                <CheckIcon /> Mark All as Done
+                <CheckIcon /> {{ t('buttons.markAllAsDone') }}
             </button>
         </div>
 
@@ -90,7 +95,7 @@ function deleteTasks() {
             <button type="button"
                 class="w-full flex flex-row rounded-md justify-center items-center text-white bg-red-700 hover:bg-red-900 px-2 py-1"
                 @click="deleteTasks">
-                <TrashIcon /> Delete All
+                <TrashIcon /> {{ t('buttons.deleteAll') }}
             </button>
         </div>
     </div>

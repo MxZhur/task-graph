@@ -2,6 +2,9 @@
 import { computed } from 'vue';
 import { useTasksStore } from '../stores/tasksStore';
 import HomeIcon from './icons/HomeIcon.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const tasksStore = useTasksStore();
 
@@ -47,7 +50,7 @@ function switchParentTask(newParentId: string | null) {
 
 <template>
     <div class="p-2 bg-white min-h-8 flex flex-row justify-start overflow-x-hidden">
-        <div class="cursor-pointer" @click="switchParentTask(null)" title="Top Level">
+        <div class="cursor-pointer" @click="switchParentTask(null)" :title="t('goToTopLevel')">
             <HomeIcon />
         </div>
 

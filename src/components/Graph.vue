@@ -14,6 +14,9 @@ import "v-network-graph/lib/style.css"
 import { TASK_DIFFICULTIES, TASK_PRIORITIES, useTasksStore } from "../stores/tasksStore";
 import Breadcrumbs from "./Breadcrumbs.vue";
 import FitContentsIcon from "./icons/FitContentsIcon.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const graph = ref<Instance>();
 
@@ -258,7 +261,7 @@ function fitContents() {
     <VNetworkGraph class="graph" ref="graph" :nodes="nodes" :edges="edges" :layouts="layouts" :configs="configs"
       :event-handlers="eventHandlers" />
     <div class="absolute bottom-1 left-1 bg-opacity-50 p-2 text-white bg-black rounded-md flex flex-row">
-      <div class="cursor-pointer" title="Fit Contents" @click="fitContents">
+      <div class="cursor-pointer" :title="t('fitContents')" @click="fitContents">
         <FitContentsIcon />
       </div>
     </div>

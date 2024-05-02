@@ -6,6 +6,9 @@ import DifficultySelector from './DifficultySelector.vue';
 import CheckIcon from './icons/CheckIcon.vue';
 import TrashIcon from './icons/TrashIcon.vue';
 import DiveInIcon from './icons/DiveInIcon.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const tasksStore = useTasksStore();
 
@@ -76,33 +79,36 @@ function deleteTask() {
 
 <template>
     <div class="h-full overflow-y-scroll">
-        <div class="text-2xl mb-4">Task Details</div>
-
-        <div class="mb-4">
-            <div>
-                Name
-            </div>
-            <input type="text" class="w-full rounded-md border px-2 py-1 border-gray-500 text-base"
-                v-model.trim="formFields.name" autocomplete="off" @input="changeName" required placeholder="Name" />
+        <div class="text-xl mb-4">
+            {{ t('titles.taskDetails') }}
         </div>
 
         <div class="mb-4">
-            <div>
-                Description
+            <div class="text-xs">
+                {{ t('formFields.name') }}
+            </div>
+            <input type="text" class="w-full rounded-md border px-2 py-1 border-gray-500 text-base"
+                v-model.trim="formFields.name" autocomplete="off" @input="changeName" required
+                :placeholder="t('formFields.name')" />
+        </div>
+
+        <div class="mb-4">
+            <div class="text-xs">
+                {{ t('formFields.description') }}
             </div>
             <textarea class="block w-full rounded-md border px-2 py-1 border-gray-500 text-base"
                 v-model="formFields.description" @input="changeDescription"></textarea>
         </div>
 
         <div class="mb-4">
-            <div>
-                Progress
+            <div class="text-xs">
+                {{ t('formFields.progress') }}
             </div>
             <div v-if="hasChildTasks">
                 {{ formFields.progress }}%
             </div>
             <div v-else class="flex flex-row">
-                <button type="button" title="Mark as done"
+                <button type="button" :title="t('buttons.markAsDone')"
                     class="rounded-md text-white bg-green-700 hover:bg-green-900 px-2 py-1 h-8 mr-2"
                     @click="markAsDone">
                     <CheckIcon />
@@ -118,15 +124,15 @@ function deleteTask() {
         </div>
 
         <div class="mb-4">
-            <div>
-                Priority
+            <div class="text-xs">
+                {{ t('formFields.priority') }}
             </div>
             <PrioritySelector v-model="formFields.priority" @change="changePriority" />
         </div>
 
         <div class="mb-4">
-            <div>
-                Difficulty
+            <div class="text-xs">
+                {{ t('formFields.difficulty') }}
             </div>
             <DifficultySelector v-model="formFields.difficulty" @change="changeDufficulty" />
         </div>
@@ -135,7 +141,7 @@ function deleteTask() {
             <button type="button"
                 class="w-full flex flex-row rounded-md justify-center items-center text-white bg-sky-700 hover:bg-sky-900 px-2 py-1"
                 @click="diveIn">
-                <DiveInIcon /> Dive In
+                <DiveInIcon /> {{ t('buttons.diveIn') }}
             </button>
         </div>
 
@@ -143,7 +149,7 @@ function deleteTask() {
             <button type="button"
                 class="w-full flex flex-row rounded-md justify-center items-center text-white bg-red-700 hover:bg-red-900 px-2 py-1"
                 @click="deleteTask">
-                <TrashIcon /> Delete
+                <TrashIcon /> {{ t('delete') }}
             </button>
         </div>
     </div>

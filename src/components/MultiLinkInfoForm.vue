@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { Task, useTasksStore } from '../stores/tasksStore';
 import ArrowDownIcon from './icons/ArrowDownIcon.vue';
 import TrashIcon from './icons/TrashIcon.vue';
+
+const { t } = useI18n();
 
 const tasksStore = useTasksStore();
 
@@ -27,7 +30,9 @@ function deleteLinks() {
 
 <template>
     <div>
-        <div class="text-2xl mb-4">{{links.length > 1 ? "Multiple Links" : "Link Details"}}</div>
+        <div class="text-xl mb-4">
+            {{ t(links.length > 1 ? "titles.multipleLinks" : "titles.linkDetails") }}
+        </div>
 
         <div class="mb-4">
             <ul>
@@ -48,7 +53,7 @@ function deleteLinks() {
             <button type="button"
                 class="w-full flex flex-row rounded-md justify-center items-center text-white bg-red-700 hover:bg-red-900 px-2 py-1"
                 @click="deleteLinks">
-                <TrashIcon /> {{links.length > 1 ? "Unlink All" : "Unlink"}}
+                <TrashIcon /> {{ t(links.length > 1 ? "buttons.unlinkAll" : "buttons.unlink") }}
             </button>
         </div>
     </div>
