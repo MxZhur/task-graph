@@ -1,7 +1,7 @@
 <template>
     <div class="app-logo-container">
         <div class="app-logo-image">
-            <img src="../assets/icon.svg" height="200" />
+            <img src="../assets/icon.svg" height="200" class="h-52" />
         </div>
         <div class="app-logo-text">
             <div>Task</div>
@@ -22,12 +22,12 @@
 }
 
 .app-logo-image {
-    margin-right: 15px;
+    margin-right: 0px;
 }
 
 .app-logo-text {
     font-size: 3rem;
-    color: #258fe6;
+    color: #0cb0fa;
     line-height: 3.5rem;
 }
 </style>
