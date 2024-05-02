@@ -2,7 +2,7 @@
 import { onBeforeUnmount, onMounted } from 'vue';
 import { useRecentFilesStore } from './stores/recentFilesStore';
 import { appWindow } from '@tauri-apps/api/window';
-import { FILE_EXTENSION, askFileConfirmation, commandFileSave, readFile } from './utils/file';
+import { FILE_EXTENSION, askFileConfirmation, commandFileOpenRecent, commandFileSave } from './utils/file';
 import { UnlistenFn, listen } from '@tauri-apps/api/event';
 
 const listenToCloseRequest = async () => {
@@ -43,7 +43,7 @@ onMounted(() => {
           return;
         }
 
-        await readFile(filePath);
+        await commandFileOpenRecent(filePath);
       }
     );
 });

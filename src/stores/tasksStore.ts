@@ -40,57 +40,6 @@ export const TASK_DIFFICULTIES = {
   easy: 0.5,
 };
 
-const initialState: Task[] = [
-  {
-    id: "qaz",
-    name: "Qazaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    description:
-      "Qazaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    priority: 3,
-    progress: 50,
-    difficulty: 0.5,
-    parentTaskId: null,
-    dependencyTasks: ["wsx"],
-    nodeX: 125,
-    nodeY: 125,
-  },
-  {
-    id: "wsx",
-    name: "Wsx",
-    description: "",
-    priority: 4,
-    progress: 50,
-    difficulty: 0.5,
-    parentTaskId: null,
-    dependencyTasks: [],
-    nodeX: 0,
-    nodeY: 0,
-  },
-  {
-    id: "rfv",
-    name: "Rfv",
-    description: "",
-    priority: 5,
-    progress: 10,
-    difficulty: 1,
-    parentTaskId: null,
-    dependencyTasks: ["wsx", "qaz"],
-    nodeX: 250,
-    nodeY: 0,
-  },
-  {
-    id: "asd",
-    name: "Asd",
-    description: "",
-    priority: 4,
-    progress: 50,
-    difficulty: 0.5,
-    parentTaskId: "wsx",
-    dependencyTasks: [],
-    nodeX: 0,
-    nodeY: 0,
-  },
-];
 
 export const calcAvgProgress = (
   tasks: Task[],
@@ -121,7 +70,7 @@ export const calcAvgProgress = (
 };
 
 export const useTasksStore = defineStore("tasks", () => {
-  const tasks = reactive<Task[]>(initialState);
+  const tasks = reactive<Task[]>([]);
 
   const selectedTasksIds = ref<string[]>([]);
 
