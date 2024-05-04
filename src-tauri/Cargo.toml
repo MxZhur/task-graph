@@ -1,6 +1,6 @@
 [package]
 name = "task-graph"
-version = "0.0.1"
+version = "0.0.2"
 description = "A Graph-focused task manager app"
 authors = ["Maxim Zhuravlev"]
 edition = "2021"
