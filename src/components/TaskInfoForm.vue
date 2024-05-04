@@ -7,10 +7,12 @@ import CheckIcon from './icons/CheckIcon.vue';
 import TrashIcon from './icons/TrashIcon.vue';
 import DiveInIcon from './icons/DiveInIcon.vue';
 import { useI18n } from 'vue-i18n';
+import { useMainPageStore } from '../stores/mainPageStore';
 
 const { t } = useI18n();
 
 const tasksStore = useTasksStore();
+const mainPageStore = useMainPageStore();
 
 const props = defineProps<{
     task: Task
@@ -137,7 +139,7 @@ function deleteTask() {
             <DifficultySelector v-model="formFields.difficulty" @change="changeDufficulty" />
         </div>
 
-        <div class="mt-4">
+        <div class="mt-4" v-if="mainPageStore.selectedTab === 'graph'">
             <button type="button"
                 class="w-full flex flex-row rounded-md justify-center items-center text-white bg-sky-700 hover:bg-sky-900 px-2 py-1"
                 @click="diveIn">

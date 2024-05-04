@@ -22,6 +22,10 @@
         "priority": "Priority",
         "difficulty": "Difficulty"
     },
+    "tabs": {
+        "graph": "Graph",
+        "outline": "Outline"
+    },
     "exitConfirmation": {
         "titleYouSure": "Exit",
         "youSure": "Are you sure?",
@@ -50,6 +54,9 @@
         "normal": "Normal",
         "hard": "Hard"
     },
+    "showAgenda": "Show Agenda Only",
+    "showAgendaTooltip": "Show only the unfinished tasks with no unfinished dependencies.",
+    "noTasks": "No tasks found. You can go to the Graph tab and create one.",
     "goToTopLevel": "Go back to top level",
     "unableToOpenFile": "Unable to open file",
     "error": "Error",

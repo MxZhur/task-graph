@@ -241,12 +241,6 @@ const eventHandlers: EventHandlers = {
   "node:dblclick": (e) => {
     tasksStore.switchParentTask(e.node);
   },
-  "node:select": (e) => {
-    tasksStore.updateTaskSelection(e);
-  },
-  "edge:select": (e) => {
-    tasksStore.updateLinkSelection(e);
-  },
 }
 
 function fitContents() {
@@ -256,13 +250,16 @@ function fitContents() {
 </script>
 
 <template>
-  <Breadcrumbs />
-  <div class="graph-container relative">
-    <VNetworkGraph class="graph" ref="graph" :nodes="nodes" :edges="edges" :layouts="layouts" :configs="configs"
-      :event-handlers="eventHandlers" />
-    <div class="absolute bottom-1 left-1 bg-opacity-50 p-2 text-white bg-black rounded-md flex flex-row">
-      <div class="cursor-pointer" :title="t('fitContents')" @click="fitContents">
-        <FitContentsIcon />
+  <div class="h-full">
+    <Breadcrumbs />
+    <div class="graph-container relative">
+      <VNetworkGraph class="graph" ref="graph" :nodes="nodes" :edges="edges" :layouts="layouts" :configs="configs"
+        :event-handlers="eventHandlers" v-model:selected-nodes="tasksStore.selectedTasksIds"
+        v-model:selected-edges="tasksStore.selectedLinksIds" />
+      <div class="absolute bottom-1 left-1 bg-opacity-50 p-2 text-white bg-black rounded-md flex flex-row">
+        <div class="cursor-pointer" :title="t('fitContents')" @click="fitContents">
+          <FitContentsIcon />
+        </div>
       </div>
     </div>
   </div>

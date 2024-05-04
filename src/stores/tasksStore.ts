@@ -446,6 +446,15 @@ export const useTasksStore = defineStore("tasks", () => {
     tasks.splice(0, tasks.length);
   }
 
+  const agendaTasks = computed(() => {
+    let result = tasks.filter(t => {
+      const hasUnfinishedDependencies = getDependencyProgress(t.id) < 100;
+      return !hasUnfinishedDependencies && t.progress < 100;
+    });
+
+    return result;
+  })
+
   return {
     tasks,
     topLevelTasks,
@@ -475,5 +484,6 @@ export const useTasksStore = defineStore("tasks", () => {
     switchParentTask,
     loadTasks,
     clearTasks,
+    agendaTasks,
   };
 });
