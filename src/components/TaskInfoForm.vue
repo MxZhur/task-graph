@@ -8,6 +8,7 @@ import TrashIcon from './icons/TrashIcon.vue';
 import DiveInIcon from './icons/DiveInIcon.vue';
 import { useI18n } from 'vue-i18n';
 import { useMainPageStore } from '../stores/mainPageStore';
+import ReparentIcon from './icons/ReparentIcon.vue';
 
 const { t } = useI18n();
 
@@ -29,6 +30,12 @@ const formFields = reactive({
 const hasChildTasks = computed(() => {
     return tasksStore.findTasksByParent(props.task.id).length > 0;
 });
+
+const emit = defineEmits(['reparentRequest']);
+
+function reparentRequest() {
+    emit('reparentRequest');
+}
 
 watch(() => props.task,
     () => {
@@ -144,6 +151,14 @@ function deleteTask() {
                 class="w-full flex flex-row rounded-md justify-center items-center text-white bg-sky-700 hover:bg-sky-900 px-2 py-1"
                 @click="diveIn">
                 <DiveInIcon /> {{ t('buttons.diveIn') }}
+            </button>
+        </div>
+                
+        <div class="mt-4">
+            <button type="button"
+                class="w-full flex flex-row rounded-md justify-center items-center text-white bg-sky-700 hover:bg-sky-900 px-2 py-1"
+                @click="reparentRequest">
+                <ReparentIcon /> {{ t('buttons.reparent') }}
             </button>
         </div>
 

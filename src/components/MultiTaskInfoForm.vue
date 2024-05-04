@@ -4,6 +4,7 @@ import { Task, useTasksStore } from '../stores/tasksStore';
 import CheckIcon from './icons/CheckIcon.vue';
 import TrashIcon from './icons/TrashIcon.vue';
 import { useI18n } from 'vue-i18n';
+import ReparentIcon from './icons/ReparentIcon.vue';
 
 const { t } = useI18n();
 
@@ -59,6 +60,13 @@ function deleteTasks() {
     tasksStore.updateTaskSelection([]);
 }
 
+const emit = defineEmits(['reparentRequest']);
+
+function reparentRequest() {
+    emit('reparentRequest');
+}
+
+
 </script>
 
 <template>
@@ -88,6 +96,14 @@ function deleteTasks() {
                 class="w-full flex flex-row rounded-md justify-center items-center text-white bg-green-700 hover:bg-green-900 px-2 py-1"
                 @click="markAsDone">
                 <CheckIcon /> {{ t('buttons.markAllAsDone') }}
+            </button>
+        </div>
+        
+        <div class="mt-4">
+            <button type="button"
+                class="w-full flex flex-row rounded-md justify-center items-center text-white bg-sky-700 hover:bg-sky-900 px-2 py-1"
+                @click="reparentRequest">
+                <ReparentIcon /> {{ t('buttons.reparent') }}
             </button>
         </div>
 

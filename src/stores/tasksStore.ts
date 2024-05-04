@@ -40,7 +40,6 @@ export const TASK_DIFFICULTIES = {
   easy: 0.5,
 };
 
-
 export const calcAvgProgress = (
   tasks: Task[],
   digitsAfterPoint: number = 1
@@ -115,7 +114,7 @@ export const useTasksStore = defineStore("tasks", () => {
     return calcAvgProgress(topLevelTasks);
   });
 
-  function findTasksByParent(parentId: string) {
+  function findTasksByParent(parentId: string | null) {
     return tasks.filter((t) => t.parentTaskId === parentId);
   }
 
@@ -447,13 +446,59 @@ export const useTasksStore = defineStore("tasks", () => {
   }
 
   const agendaTasks = computed(() => {
-    let result = tasks.filter(t => {
+    let result = tasks.filter((t) => {
       const hasUnfinishedDependencies = getDependencyProgress(t.id) < 100;
       return !hasUnfinishedDependencies && t.progress < 100;
     });
 
     return result;
-  })
+  });
+
+  function reparentTasks(tasksIds: string[], newParentId: string | null) {
+    let hasMovedTasks = false;
+
+    for (let i = 0; i < tasksIds.length; i++) {
+      const taskId = tasksIds[i];
+
+      let task = findTaskById(taskId);
+
+      if (task === undefined) {
+        continue;
+      }
+
+      if (task.parentTaskId === newParentId) {
+        continue;
+      }
+
+      task.parentTaskId = newParentId;
+      task.dependencyTasks = task.dependencyTasks.filter((tId) =>
+        tasksIds.includes(tId)
+      );
+
+      hasMovedTasks = true;
+    }
+
+    if (hasMovedTasks) {
+      for (let i = 0; i < tasks.length; i++) {
+        const task = tasks[i];
+
+        if (tasksIds.includes(task.id)) {
+          continue;
+        }
+
+        task.dependencyTasks = task.dependencyTasks.filter(
+          (tId) => !tasksIds.includes(tId)
+        );
+      }
+    }
+
+    switchParentTask(newParentId);
+    updateTaskSelection([]);
+    updateLinkSelection([]);
+
+    const currentFileStore = useCurrentFileStore();
+    currentFileStore.setToDirtyFile();
+  }
 
   return {
     tasks,
@@ -484,6 +529,7 @@ export const useTasksStore = defineStore("tasks", () => {
     switchParentTask,
     loadTasks,
     clearTasks,
+    reparentTasks,
     agendaTasks,
   };
 });

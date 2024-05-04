@@ -34,6 +34,7 @@
     },
     "buttons": {
         "diveIn": "Dive In",
+        "reparent": "Reparent",
         "linkTasks": "Link Tasks",
         "linkTasksInChain": "Link Tasks In Chain",
         "markAsDone": "Mark As Done",
@@ -54,9 +55,11 @@
         "normal": "Normal",
         "hard": "Hard"
     },
+    "selectNewParentTask": "Select a new parent task to move into.",
     "showAgenda": "Show Agenda Only",
     "showAgendaTooltip": "Show only the unfinished tasks with no unfinished dependencies.",
     "noTasks": "No tasks found. You can go to the Graph tab and create one.",
+    "topLevel": "Top Level",
     "goToTopLevel": "Go back to top level",
     "unableToOpenFile": "Unable to open file",
     "error": "Error",

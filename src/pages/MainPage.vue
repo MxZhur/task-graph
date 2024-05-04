@@ -13,10 +13,6 @@ import { useMainPageStore } from '../stores/mainPageStore';
 
 const { t } = useI18n();
 
-const newTaskFormRef = ref<InstanceType<typeof NewTaskForm>>();
-
-const showNewTaskForm = ref<boolean>(false);
-
 const tabNavs: TabNavData[] = [
     {
         id: 'graph',
@@ -29,6 +25,10 @@ const tabNavs: TabNavData[] = [
 ];
 
 const mainPageStore = useMainPageStore();
+
+const newTaskFormRef = ref<InstanceType<typeof NewTaskForm>>();
+
+const showNewTaskForm = ref<boolean>(false);
 
 const newTaskPoint = reactive({
     x: 0,
