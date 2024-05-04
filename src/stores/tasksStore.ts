@@ -492,6 +492,8 @@ export const useTasksStore = defineStore("tasks", () => {
       }
     }
 
+    recalculateProgress();
+
     switchParentTask(newParentId);
     updateTaskSelection([]);
     updateLinkSelection([]);
